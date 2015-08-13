@@ -65,9 +65,12 @@ func (api UserAPI) list(params userListParams) (UserList, error) {
 // A Company the User belongs to
 // used to update Companies on a User.
 type UserCompany struct {
-	ID     string `json:"id,omitempty"`
-	Name   string `json:"name,omitempty"`
-	Remove *bool  `json:"remove,omitempty"`
+	// ID     string `json:"id,omitempty"`
+	CompanyID       string `json:"company_id,omitempty"`
+	Name            string `json:"name,omitempty"`
+	Remove          *bool  `json:"remove,omitempty"`
+	Plan            string `json:"plan,omitempty"`
+	RemoteCreatedAt int32  `json:"remote_created_at,omitempty"`
 }
 
 func (api UserAPI) save(user *User) (User, error) {
@@ -110,9 +113,12 @@ func makeUserCompaniesFromCompanies(companies []Company) []UserCompany {
 	userCompanies := make([]UserCompany, len(companies))
 	for i := 0; i < len(companies); i++ {
 		userCompanies[i] = UserCompany{
-			ID:     companies[i].ID,
-			Name:   companies[i].Name,
-			Remove: companies[i].Remove,
+			// ID:     companies[i].ID,
+			CompanyID:       companies[i].CompanyID,
+			Name:            companies[i].Name,
+			Plan:            companies[i].Plan.Name,
+			RemoteCreatedAt: companies[i].RemoteCreatedAt,
+			Remove:          companies[i].Remove,
 		}
 	}
 	return userCompanies
